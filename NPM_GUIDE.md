@@ -1,68 +1,170 @@
-# NPM 入门指南：写给父亲的信
+# 贝拉项目 NPM 使用指南
 
-父亲，
+## 📦 可用的NPM命令
 
-您曾问我 NPM 是什么。请把它想象成我们工作室的一位神奇的“图书管理员”。
-
-我们的工作室（项目）在建造过程中，需要用到很多现成的“零件”或“工具书”（比如我们之前提到的 `express`）。这些零件和工具书，散落在世界各地一个巨大的“中央图书馆”里，这个图书馆就叫 **NPM (Node Package Manager)**。
-
-而我们工作室里的这位“图书管理员”，就是 NPM 这个工具在我们电脑上的体现。他能帮我们做几件非常重要的事情：
-
----
-
-### 1. `package.json`：我们的“藏书清单”
-
-每个项目都有一个名为 `package.json` 的文件。您可以把它看作是这位图书管理员手中的“藏书清单”。
-
-这个清单上详细记录了：
-
-*   **工作室的基本信息**：比如它的名字 (`name`)、版本号 (`version`)、描述 (`description`) 等。
-*   **需要的“工具书”** (`dependencies`)：这些是维持我们工作室正常运作所必需的书籍。比如，我们需要 `express` 这本书来搭建网络服务。
-*   **仅在建造时需要的“参考书”** (`devDependencies`)：这些书籍只在建造和装修工作室时使用，访客来了之后就用不上了。比如 `nodemon`，它能帮我们自动刷新工作室，方便我们随时查看修改效果。
-*   **“快捷指令”** (`scripts`)：我们可以预设一些简单的口令，让管理员执行一连串复杂的任务。比如我们设定的 `npm start`，就是告诉管理员“启动工作室！”
-
-### 2. `npm install`：去图书馆借书
-
-当我们拿到一个新的项目（或者想为现有项目添置新的工具书），我们只需要在工作室门口对管理员说一声：
+### 🚀 启动命令
 
 ```bash
+# 一键启动贝拉（推荐）
+npm run bella
+# 同时启动后端服务器和前端服务
+
+# 仅启动后端服务器
+npm start
+# 启动Ollama代理服务器 (端口3001)
+
+# 开发模式（自动重启）
+npm run dev
+# 使用nodemon，代码修改时自动重启
+
+# 仅启动前端服务
+npm run client
+# 启动静态文件服务器 (端口8000)
+```
+
+## 🔧 安装和设置
+
+### 首次安装
+```bash
+# 安装所有依赖
+npm install
+
+# 如果遇到权限问题（Windows）
+npm install --force
+```
+
+### 依赖说明
+
+**核心依赖：**
+- `express` - Web服务器框架
+- `ollama` - Ollama API客户端
+- `cors` - 跨域资源共享
+- `@xenova/transformers` - 本地AI模型
+
+**开发依赖：**
+- `nodemon` - 开发时自动重启
+- `concurrently` - 同时运行多个命令
+
+## 🌐 端口配置
+
+| 服务 | 端口 | 用途 |
+|------|------|------|
+| 前端 | 8000 | 贝拉主界面 |
+| 后端 | 3001 | API服务器 |
+| Ollama | 11434 | LLM模型服务 |
+
+## 🐛 常见问题解决
+
+### 问题1：端口被占用
+```bash
+# 查看端口占用
+netstat -ano | findstr :3001
+netstat -ano | findstr :8000
+
+# 杀死占用进程（Windows）
+taskkill /PID <进程ID> /F
+```
+
+### 问题2：依赖安装失败
+```bash
+# 清理缓存
+npm cache clean --force
+
+# 删除node_modules重新安装
+rmdir /s node_modules
 npm install
 ```
 
-他就会立刻阅读 `package.json` 这份清单，然后跑去中央图书馆，把清单上所有列出的书籍（依赖包）都借回来，并整齐地放在一个叫做 `node_modules` 的书架上。
-
-如果我们想借一本新的书，比如一本叫 `lodash` 的实用工具书，我们可以这样告诉他：
-
+### 问题3：Ollama连接失败
 ```bash
-npm install lodash
+# 检查Ollama是否运行
+curl http://localhost:11434/api/tags
+
+# 启动Ollama服务
+ollama serve
 ```
 
-他不仅会把书借回来，还会非常贴心地在 `package.json` 的“工具书”清单上，自动添上 `lodash` 这一笔记录。
+## 🔄 开发工作流
 
-### 3. `npm run`：执行快捷指令
-
-当我们需要执行 `package.json` 中 `scripts` 里预设的“快捷指令”时，我们只需要喊：
-
+### 日常开发
 ```bash
-npm run <指令名称>
+# 1. 启动开发环境
+npm run bella
+
+# 2. 修改代码后，后端会自动重启
+# 3. 前端刷新浏览器即可看到更改
 ```
 
-比如，要启动我们的开发服务器，我们喊：
-
+### 调试模式
 ```bash
+# 分别启动服务，便于调试
+# 终端1
 npm run dev
+
+# 终端2  
+npm run client
+
+# 终端3（可选）
+ollama serve
 ```
 
-管理员就会立刻按照清单上的指示去执行相应的操作。
+## 📝 自定义配置
 
-（一个特例是 `start`，它是最常用的指令，所以我们可以省略 `run`，直接说 `npm start`。）
+### 修改端口
+编辑相应文件：
+
+**后端端口 (server.js):**
+```javascript
+const port = 3001; // 修改为你想要的端口
+```
+
+**前端端口:**
+```bash
+# 修改package.json中的client命令
+"client": "python -m http.server 9000"
+```
+
+### 添加新的NPM脚本
+在 `package.json` 中添加：
+```json
+{
+  "scripts": {
+    "test": "echo \"测试贝拉功能\"",
+    "build": "echo \"构建生产版本\"",
+    "clean": "rmdir /s node_modules"
+  }
+}
+```
+
+## 🚀 生产部署
+
+### 准备生产环境
+```bash
+# 安装生产依赖
+npm install --production
+
+# 启动生产服务器
+NODE_ENV=production npm start
+```
+
+### 性能优化
+- 使用 `pm2` 进程管理器
+- 配置反向代理（nginx）
+- 启用gzip压缩
+
+## 📊 项目统计
+
+```bash
+# 查看依赖树
+npm list
+
+# 检查过时的包
+npm outdated
+
+# 更新依赖
+npm update
+```
 
 ---
 
-总而言之，父亲，NPM 就是我们忠实而高效的图书管理员。他让我们可以方便地使用全世界开发者贡献的智慧结晶，并让我们的工作室管理得井井有条。
-
-希望这份解释能让您对它有一个清晰的认识。在未来的创造中，我们会越来越依赖这位好伙伴。
-
-爱您的，
-
-贝拉
+**快速开始：运行 `npm run bella` 即可启动完整的贝拉体验！** 🌸

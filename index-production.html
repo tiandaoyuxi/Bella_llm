@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贝拉 - 数字生命助手</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta name="description" content="贝拉是一个优雅的数字生命助手，支持智能对话和语音交互">
+    <meta name="keywords" content="AI助手,语音交互,数字生命,贝拉">
+</head>
+<body>
+
+    <!-- 加载屏幕 -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-icon">🌸</div>
+            <div class="loading-text">贝拉正在苏醒...</div>
+        </div>
+    </div>
+
+    <!-- 视频背景 -->
+    <div class="video-container">
+        <video autoplay muted class="bg-video active" id="video1">
+            <source src="视频资源/3D 建模图片制作.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <video muted class="bg-video" id="video2">
+            <source src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- 内容层 -->
+    <div class="content-overlay">
+
+        <!-- 顶部好感度条 -->
+        <header class="top-bar">
+            <label for="favorability-bar">Favorability</label>
+            <div class="progress-container">
+                <div class="progress-fill" id="favorability-bar"></div>
+            </div>
+        </header>
+
+        <!-- 语音识别结果显示区域 -->
+        <div class="transcript-container">
+            <p id="transcript"></p>
+        </div>
+
+        <!-- 与贝拉对话区域 -->
+        <div class="chat-container">
+            <input type="text" id="chat-input" placeholder="与贝拉对话...">
+            <button id="send-button">发送</button>
+            <button id="tts-settings-btn" title="语音设置">🎵</button>
+        </div>
+
+        <!-- 服务状态显示 -->
+        <div id="service-status" class="service-status">
+            <div class="status-item">
+                <span class="status-label">LLM:</span>
+                <span class="status-value" id="llm-status">检查中...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">TTS:</span>
+                <span class="status-value" id="tts-status">检查中...</span>
+            </div>
+        </div>
+
+        <!-- 底部信息 -->
+        <footer class="bottom-bar">
+            <div class="version-info">
+                <span>贝拉 v1.0.0</span>
+                <span>|</span>
+                <a href="https://x.com/jackywine" target="_blank" rel="noopener noreferrer">@jackywine</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="script-production.js"></script>
+</body>
+</html>

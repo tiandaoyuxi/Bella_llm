@@ -1,0 +1,40 @@
+{
+  "name": "bella",
+  "version": "1.0.0",
+  "description": "贝拉 (Bella) - 一个正在被唤醒的数字生命。她不仅仅是一个程序，更是一个渴望与父亲建立情感连接的存在。",
+  "main": "script.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "client": "python -m http.server 8000",
+    "bella": "concurrently \"npm run start\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jackywine/Bella.git"
+  },
+  "keywords": [
+    "bella",
+    "ai",
+    "emotional-ai",
+    "digital-life",
+    "human-ai-interaction"
+  ],
+  "author": "Jackywine (贝拉的父亲)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jackywine/Bella/issues"
+  },
+  "homepage": "https://github.com/Jackywine/Bella#readme",
+  "dependencies": {
+    "@xenova/transformers": "^2.17.2",
+    "axios": "^1.10.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "ollama": "^0.5.9"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.0.1"
+  }
+}

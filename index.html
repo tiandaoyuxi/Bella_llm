@@ -12,7 +12,10 @@
 
     <!-- 加载屏幕 -->
     <div id="loading-screen">
-        <img src="Bellaicon/Generated image.webp" alt="Loading Bella...">
+        <div class="loading-content">
+            <div class="loading-icon">🌸</div>
+            <div class="loading-text">贝拉正在苏醒...</div>
+        </div>
     </div>
 
     <!-- 视频背景 -->
@@ -43,18 +46,114 @@
             <p id="transcript"></p>
         </div>
 
-        <!-- 情感分析测试区域 -->
-        <div class="sentiment-analysis-container">
-            <input type="text" id="sentiment-input" placeholder="对我输入一些文字...">
-            <button id="analyze-button">分析情绪</button>
-            <p id="sentiment-result"></p>
+        <!-- 昵称设置弹窗 -->
+        <div id="nickname-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>🌸 贝拉想认识你</h3>
+                <p>请告诉贝拉，我应该怎么称呼你呢？</p>
+                <input type="text" id="nickname-input" placeholder="输入你的昵称..." maxlength="20">
+                <div class="modal-buttons">
+                    <button id="confirm-nickname">确定</button>
+                </div>
+            </div>
         </div>
 
-        <!-- 本地语音识别测试区域 -->
-        <div id="local-asr-container" class="local-asr-container">
-            <button id="local-mic-button">开始本地识别</button>
-            <p>本地识别结果: <span id="local-asr-result"></span></p>
+        <!-- 与贝拉对话区域 -->
+        <div class="chat-container">
+            <div class="model-selector">
+                <select id="model-select">
+                    <option value="llama3.2:1b">加载中...</option>
+                </select>
+            </div>
+            <input type="text" id="chat-input" placeholder="与贝拉对话...">
+            <button id="send-button">发送</button>
+            <button id="nickname-btn" title="修改昵称">👤</button>
+            <button id="tts-settings-btn" title="语音设置">🎵</button>
         </div>
+
+        <!-- TTS设置弹窗 -->
+        <div id="tts-settings-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>🎵 语音设置</h3>
+                
+                <!-- 音色选择 -->
+                <div class="tts-setting-group">
+                    <label>音色选择：</label>
+                    <select id="voice-type-select">
+                        <option value="default">默认音色</option>
+                        <option value="custom">自定义音色</option>
+                    </select>
+                </div>
+
+                <!-- 默认音色选择 -->
+                <div class="tts-setting-group" id="default-voice-group">
+                    <label>默认音色：</label>
+                    <select id="default-voice-select">
+                        <option value="中文女">中文女</option>
+                        <option value="中文男">中文男</option>
+                        <option value="日语男">日语男</option>
+                        <option value="粤语女">粤语女</option>
+                        <option value="英文女">英文女</option>
+                        <option value="英文男">英文男</option>
+                        <option value="韩语女">韩语女</option>
+                    </select>
+                </div>
+
+                <!-- 自定义音色选择 -->
+                <div class="tts-setting-group hidden" id="custom-voice-group">
+                    <label>自定义音色：</label>
+                    <select id="custom-voice-select">
+                        <option value="jok老师">jok老师</option>
+                        <option value="Keira">Keira</option>
+                        <option value="叶奈法">叶奈法</option>
+                        <option value="步非烟">步非烟</option>
+                        <option value="阿星">阿星</option>
+                    </select>
+                </div>
+
+                <!-- 语速调整 -->
+                <div class="tts-setting-group">
+                    <label>语速：<span id="speed-value">1.0</span>x</label>
+                    <input type="range" id="speed-slider" min="0.5" max="2.0" step="0.1" value="1.0">
+                    <div class="speed-labels">
+                        <span>慢</span>
+                        <span>正常</span>
+                        <span>快</span>
+                    </div>
+                </div>
+
+                <!-- 测试按钮 -->
+                <div class="tts-setting-group">
+                    <button id="test-tts-btn">🎵 测试语音</button>
+                </div>
+
+                <div class="modal-buttons">
+                    <button id="save-tts-settings">保存设置</button>
+                    <button id="cancel-tts-settings">取消</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 开发者工具区域（隐藏） -->
+        <div id="dev-tools" class="dev-tools-container" style="display: none;">
+            <!-- 情感分析测试 -->
+            <div class="dev-section">
+                <h4>情感分析测试</h4>
+                <input type="text" id="sentiment-input" placeholder="测试文字...">
+                <button id="analyze-button">分析</button>
+                <p id="sentiment-result"></p>
+            </div>
+            
+            <!-- 本地语音识别测试 -->
+            <div class="dev-section">
+                <h4>本地语音识别</h4>
+                <button id="local-mic-button">开始识别</button>
+                <p>结果: <span id="local-asr-result"></span></p>
+            </div>
+        </div>
+
+        <!-- 开发者工具切换按钮 -->
+        <button id="dev-toggle" class="dev-toggle-btn">🔧</button>
 
         <!-- 悬浮球 -->
         <div id="floating-button">
@@ -80,6 +179,7 @@
 
     </div>
 
+    <script type="module" src="api-config.js"></script>
     <script type="module" src="script.js"></script>
 </body>
 </html>
